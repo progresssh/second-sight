@@ -5,8 +5,11 @@ function DiaryItem({ entry }: { entry: DiaryEntry }) {
     <li>
       <div>{entry.content}</div>
       <div>
+        <p className="text-green-800 animate-pulse">{entry.analysis}</p>
+      </div>
+      <div>
         <ul className="text-blue-800 animate-pulse">
-          {entry.summary.map((bulletpoint, i) => (
+          {entry.bulletpoints.map((bulletpoint, i) => (
             <li key={i}>{bulletpoint}</li>
           ))}
         </ul>

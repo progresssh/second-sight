@@ -4,5 +4,6 @@ export interface DiaryEntry {
   createdAt: Timestamp
   content: string
   entryId: string
-  summary: string[]
+  analysis: string | null
+  bulletpoints: string[]
 }

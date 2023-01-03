@@ -8,27 +8,30 @@ import LoadingSpinner from "../assets/spinner.svg"
 function DiaryForm() {
   const { user } = useAuthContext()
   const [diaryEntry, setDiaryEntry] = useState<string>("")
-  const [diarySummary, setDiarySummary] = useState<string[]>([])
+  const [diaryAnalysis, setDiaryAnalysis] = useState<string | null>(null)
+  const [diaryBulletpoints, setDiaryBulletpoints] = useState<string[]>([])
   const [isLoading, setIsLoading] = useState<boolean>(false)
 
   useEffect(() => {
-    if (diarySummary.length > 0) {
+    if (diaryBulletpoints.length > 0 && diaryAnalysis) {
       addEntry(diaryEntry)
     }
-  }, [diarySummary])
+  }, [diaryBulletpoints, diaryAnalysis])
 
   async function addEntry(entryContent: string) {
     if (user) {
       const entry: Omit<DiaryEntry, "entryId"> = {
         content: entryContent,
         createdAt: Timestamp.now(),
-        summary: diarySummary,
+        analysis: diaryAnalysis,
+        bulletpoints: diaryBulletpoints,
       }
 
       await addDoc(collection(db, "users", user.uid, "entries"), {
         content: entry.content,
         createdAt: entry.createdAt,
-        summary: entry.summary,
+        analysis: entry.analysis,
+        bulletpoints: entry.bulletpoints,
       })
     } else {
       throw new Error(
@@ -58,7 +61,7 @@ function DiaryForm() {
         return (
           <span>
             {
-              "There was an error, the AI could not generate a response. Please try again."
+              "There was an error, the AI could not generate a response. Please try again in 10 minutes."
             }
           </span>
         )
@@ -70,8 +73,8 @@ function DiaryForm() {
       const splitSummaryFiltered = splitSummary.filter(
         (bulletpoint) => bulletpoint.length > 0,
       )
-
-      setDiarySummary(splitSummaryFiltered)
+      setDiaryAnalysis(analysis)
+      setDiaryBulletpoints(splitSummaryFiltered)
     }
   }
 
