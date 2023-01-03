@@ -3,7 +3,6 @@ import { useEffect, useState } from "react"
 import { Problem } from "../interfaces/Problem"
 import { useAuthContext } from "./context/AuthContext"
 import { db } from "./firebase/firebase"
-import openai from "./openAI/openAIConfig"
 import LoadingSpinner from "../assets/spinner.svg"
 
 function ProblemForm() {
@@ -43,48 +42,39 @@ function ProblemForm() {
     e.preventDefault()
     setIsLoading(true)
 
-    const response = await openai.createCompletion({
-      model: "text-davinci-003",
-      prompt: `Prompt: Transcribe the problems this person is encountering in their life in a way that brings clarity to important points to solve, speaking to the author directly.\n Entry: ${problemName}`,
-      max_tokens: 2048,
-      temperature: 0.9,
-      top_p: 1,
-      best_of: 1,
-      n: 1,
-      stream: false,
-      logprobs: null,
-    })
+    const {
+      analysis,
+      bulletpoints,
+    }: { analysis: string; bulletpoints: string } = await fetch(
+      "https://secondsightbacksyfr1vrq-first.functions.fnc.fr-par.scw.cloud/",
+      {
+        method: "POST",
+        body: JSON.stringify({ diary: problemName }),
+      },
+    )
+      .then((response) => response.json())
+      .catch((error) => {
+        console.error(error)
+        return (
+          <span>
+            {
+              "There was an error, the AI could not generate a response. Please try again."
+            }
+          </span>
+        )
+      })
 
-    const bulletpointResponse = await openai.createCompletion({
-      model: "text-davinci-003",
-      prompt: `Prompt: Convert the text into a bulletpoint format. Return to line after each bulletpoint.\n Text: ${response.data.choices[0].text}`,
-      max_tokens: 2048,
-      temperature: 0.6,
-      top_p: 1,
-      best_of: 1,
-      n: 1,
-      stream: false,
-      logprobs: null,
-    })
-
-    if (bulletpointResponse.data.choices[0].text) {
-      const summary = bulletpointResponse.data.choices[0].text
+    if (bulletpoints) {
+      const summary = bulletpoints
       const splitSummary = summary.split("\n")
       const splitSummaryFiltered = splitSummary.filter(
         (bulletpoint) => bulletpoint.length > 0,
       )
 
       setProblemSummary(splitSummaryFiltered)
-    } else {
-      return (
-        <span>
-          {
-            "There was an error, the AI could not generate a response. Please try again."
-          }
-        </span>
-      )
     }
   }
+
   return (
     <>
       {user && (
