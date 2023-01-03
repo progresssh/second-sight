@@ -1,7 +1,2 @@
-# Beyond
-A place for problems to be uncovered and seen.
-
-## Purpose
-An app that allows you to list, track and focus on your problem one at a time.
-
-Take 15mns to Write down the problem -> Determine the steps to fix those issues and solve the problem.
+# Second Sight
+A diary website where each week, you get the opportunity to write your thoughts to a virtual avatar that replies to you with insight and important ideas into what you've written.
