@@ -1,8 +1,8 @@
 import { Timestamp } from "firebase/firestore"
 
-export interface Problem {
+export interface DiaryEntry {
   createdAt: Timestamp
-  problemName: string
-  problemId: string
+  content: string
+  entryId: string
   summary: string[]
 }

@@ -1,7 +1,7 @@
 import { useAuthContext } from "./utils/context/AuthContext"
 import LoginForm from "./utils/LoginForm"
-import ProblemForm from "./utils/ProblemForm"
-import ProblemList from "./utils/ProblemList"
+import DiaryForm from "./utils/DiaryForm"
+import DiaryEntryList from "./utils/DiaryEntryList"
 
 function App() {
   const { user } = useAuthContext()
@@ -13,8 +13,8 @@ function App() {
         {user ? user.email : "Please Sign up or Log in"}
       </h2>
       <LoginForm />
-      <ProblemForm />
-      <ProblemList />
+      <DiaryForm />
+      <DiaryEntryList />
     </div>
   )
 }

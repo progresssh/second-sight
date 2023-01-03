@@ -1,36 +1,36 @@
 import { collection, onSnapshot, QuerySnapshot } from "firebase/firestore"
 import { useEffect, useState } from "react"
-import { Problem } from "../interfaces/Problem.js"
+import { DiaryEntry } from "../interfaces/DiaryEntry.js"
 import { db } from "./firebase/firebase.js"
-import ProblemItem from "./ProblemItem.js"
 import { useAuthContext } from "./context/AuthContext.js"
+import DiaryItem from "./DiaryItem.js"
 
-function ProblemList() {
+function DiaryEntryList() {
   const { user } = useAuthContext()
 
-  const [problems, setProblems] = useState<Problem[] | null>()
+  const [diaryEntries, setDiaryEntries] = useState<DiaryEntry[] | null>()
   const [snapshot, setSnapshot] = useState<QuerySnapshot | null>(null)
 
   useEffect(() => {
     if (user) {
-      const query = collection(db, "users", user.uid, "problems")
+      const query = collection(db, "users", user.uid, "entries")
       const unsubscribe = onSnapshot(query, (querySnapshot) =>
         setSnapshot(querySnapshot),
       )
       return () => unsubscribe()
     } else {
-      setProblems([])
+      setDiaryEntries([])
     }
   }, [user])
 
   useEffect(() => {
     if (snapshot) {
-      const data: Problem[] = []
+      const data: DiaryEntry[] = []
       snapshot.docs.map((doc) => {
-        data.push({ problemId: doc.id, ...doc.data() } as Problem)
+        data.push({ entryId: doc.id, ...doc.data() } as DiaryEntry)
         data.sort((a, b) => b.createdAt.toMillis() - a.createdAt.toMillis())
       })
-      setProblems(data)
+      setDiaryEntries(data)
     }
   }, [snapshot])
 
@@ -38,8 +38,8 @@ function ProblemList() {
     <>
       {user && (
         <ul>
-          {problems?.map((problem) => (
-            <ProblemItem key={problem.problemId} problem={problem} />
+          {diaryEntries?.map((entry) => (
+            <DiaryItem key={entry.entryId} entry={entry} />
           ))}
         </ul>
       )}
@@ -47,4 +47,4 @@ function ProblemList() {
   )
 }
 
-export default ProblemList
+export default DiaryEntryList

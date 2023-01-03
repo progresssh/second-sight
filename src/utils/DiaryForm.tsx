@@ -1,34 +1,34 @@
 import { addDoc, collection, Timestamp } from "firebase/firestore"
 import { useEffect, useState } from "react"
-import { Problem } from "../interfaces/Problem"
+import { DiaryEntry } from "../interfaces/DiaryEntry"
 import { useAuthContext } from "./context/AuthContext"
 import { db } from "./firebase/firebase"
 import LoadingSpinner from "../assets/spinner.svg"
 
-function ProblemForm() {
+function DiaryForm() {
   const { user } = useAuthContext()
-  const [problemName, setProblemName] = useState<string>("")
-  const [problemSummary, setProblemSummary] = useState<string[]>([])
+  const [diaryEntry, setDiaryEntry] = useState<string>("")
+  const [diarySummary, setDiarySummary] = useState<string[]>([])
   const [isLoading, setIsLoading] = useState<boolean>(false)
 
   useEffect(() => {
-    if (problemSummary.length > 0) {
-      addProblem(problemName)
+    if (diarySummary.length > 0) {
+      addEntry(diaryEntry)
     }
-  }, [problemSummary])
+  }, [diarySummary])
 
-  async function addProblem(problemName: string) {
+  async function addEntry(entryContent: string) {
     if (user) {
-      const problem: Omit<Problem, "problemId"> = {
-        problemName: problemName,
+      const entry: Omit<DiaryEntry, "entryId"> = {
+        content: entryContent,
         createdAt: Timestamp.now(),
-        summary: problemSummary,
+        summary: diarySummary,
       }
 
-      await addDoc(collection(db, "users", user.uid, "problems"), {
-        createdAt: problem.createdAt,
-        problemName: problem.problemName,
-        summary: problem.summary,
+      await addDoc(collection(db, "users", user.uid, "entries"), {
+        content: entry.content,
+        createdAt: entry.createdAt,
+        summary: entry.summary,
       })
     } else {
       throw new Error(
@@ -49,7 +49,7 @@ function ProblemForm() {
       "https://secondsightbacksyfr1vrq-first.functions.fnc.fr-par.scw.cloud/",
       {
         method: "POST",
-        body: JSON.stringify({ diary: problemName }),
+        body: JSON.stringify({ diary: diaryEntry }),
       },
     )
       .then((response) => response.json())
@@ -71,7 +71,7 @@ function ProblemForm() {
         (bulletpoint) => bulletpoint.length > 0,
       )
 
-      setProblemSummary(splitSummaryFiltered)
+      setDiarySummary(splitSummaryFiltered)
     }
   }
 
@@ -79,16 +79,13 @@ function ProblemForm() {
     <>
       {user && (
         <form className="flex flex-col" onSubmit={(e) => handleSubmit(e)}>
-          <div>
-            <label htmlFor="problemName">Name a problem:</label>
-          </div>
           {!isLoading && (
             <textarea
-              name={"problem"}
+              name={"diaryContent"}
               className="w-3/6 h-auto  border-gray-700 border"
-              onChange={(e) => setProblemName(e.target.value)}
-              placeholder="Write some thoughts.. What you are going through, what you think of yourself.. Anything you want."
-              value={problemName}
+              onChange={(e) => setDiaryEntry(e.target.value)}
+              placeholder="This is your diary, write some thoughts, anything you want..."
+              value={diaryEntry}
             />
           )}
 
@@ -96,7 +93,7 @@ function ProblemForm() {
             {isLoading ? (
               <img src={LoadingSpinner} alt="A loading spinner" />
             ) : (
-              <input type="submit" name={"submit"} value="Add Problem" />
+              <input type="submit" name={"submit"} value="Submit Entry" />
             )}
           </div>
         </form>
@@ -105,4 +102,4 @@ function ProblemForm() {
   )
 }
 
-export default ProblemForm
+export default DiaryForm
