@@ -1,11 +1,10 @@
 import { useState } from "react"
 import { FormProps } from "../interfaces/FormProps"
+import AuthErrorMessage from "./AuthErrorMessage"
 import { useAuthContext } from "./context/AuthContext"
-import SigninButton from "./SigninButton"
 
 function LoginForm() {
-  const { user, signIn, signUp, logOut, authError, setAuthError } =
-    useAuthContext()
+  const { user, signIn, signUp, authError, setAuthError } = useAuthContext()
   const [isSignedUp, setIsSignedUp] = useState(true)
 
   function handleSubmit(e: React.FormEvent<HTMLFormElement>) {
@@ -23,42 +22,84 @@ function LoginForm() {
   return (
     <>
       {!user && (
-        <form className="flex flex-col" onSubmit={(e) => handleSubmit(e)}>
-          <div>
-            <label htmlFor="email">Enter your email:</label>
-            <input
-              type={"email"}
-              name={"email"}
-              placeholder="example@email.xyz"
-            />
-          </div>
-
-          <div>
-            <label htmlFor="password">Enter your password:</label>
-            <input type={"password"} name={"password"} />
-          </div>
-
-          <div className="flex flex-col items-start">
-            <SigninButton isSignedUp={isSignedUp} />
-            {authError && (
-              <span>{"Please enter a valid email and password"}</span>
+        <div className="flex flex-col h-full items-center justify-center">
+          <form
+            className="max-w-xs w-80 flex flex-col space-y-8 items-center justify-center 
+          bg-white shadow-md rounded px-8 pt-6 pb-8 mb-4"
+            onSubmit={(e) => handleSubmit(e)}
+          >
+            <p>Log in to your account</p>
+            {!isSignedUp && (
+              <div>
+                <label
+                  className="block text-gray-700 text-sm font-bold mb-2"
+                  htmlFor="username"
+                >
+                  Nickname
+                </label>
+                <input
+                  className="shadow appearance-none border focus:border-blue-400 rounded w-full py-2 px-3 text-gray-700 leading-tight focus:outline-none focus:shadow-outline"
+                  type={"text"}
+                  name={"nickname"}
+                  placeholder="John Doe"
+                />
+              </div>
             )}
-            <span
-              className="cursor-pointer"
-              onClick={() => {
-                setAuthError(null)
-                setIsSignedUp(!isSignedUp)
-              }}
-            >
-              {!isSignedUp
-                ? "Already have an account? Click here to login."
-                : "Don't have an account? Click here to sign up."}
-            </span>
-          </div>
-        </form>
-      )}
+            <div>
+              <label
+                className="block text-gray-700 text-sm font-bold mb-2"
+                htmlFor="username"
+              >
+                Email
+              </label>
+              <input
+                className="shadow appearance-none border focus:border-blue-400 rounded w-full py-2 px-3 text-gray-700 leading-tight focus:outline-none focus:shadow-outline"
+                type={"email"}
+                autoComplete="true"
+                name={"email"}
+                placeholder="example@email.com"
+              />
+            </div>
 
-      {user && <button onClick={logOut}>Log out</button>}
+            <div>
+              <label
+                className="block text-gray-700 text-sm font-bold mb-2"
+                htmlFor="username"
+              >
+                Password
+              </label>
+              <input
+                type={"password"}
+                name={"password"}
+                autoComplete="true"
+                className="shadow appearance-none border focus:border-blue-400 rounded w-full py-2 px-3 text-gray-700 mb-3 leading-tight focus:outline-none focus:shadow-outline"
+                placeholder={"******************"}
+              />
+            </div>
+
+            <div className="flex flex-col items-center ">
+              <button
+                type="submit"
+                className="bg-blue-500 hover:bg-blue-700 text-white font-bold py-2 px-6 rounded"
+              >
+                {isSignedUp ? "Log In" : "Register"}
+              </button>
+              {authError && <AuthErrorMessage authError={authError} />}
+              <span
+                className="cursor-pointer text-xs text-gray-400 pt-4"
+                onClick={() => {
+                  setAuthError(null)
+                  setIsSignedUp(!isSignedUp)
+                }}
+              >
+                {!isSignedUp
+                  ? "Already have an account? Click here to login."
+                  : "Don't have an account? Click here to register."}
+              </span>
+            </div>
+          </form>
+        </div>
+      )}
     </>
   )
 }

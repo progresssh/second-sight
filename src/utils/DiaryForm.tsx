@@ -8,23 +8,25 @@ import LoadingSpinner from "../assets/spinner.svg"
 function DiaryForm() {
   const { user } = useAuthContext()
   const [diaryEntry, setDiaryEntry] = useState<string>("")
-  const [diaryAnalysis, setDiaryAnalysis] = useState<string | null>(null)
-  const [diaryBulletpoints, setDiaryBulletpoints] = useState<string[]>([])
+  const [diaryAnalysis, setDiaryAnalysis] = useState<{
+    analysis: string
+    bulletpoints: string[]
+  }>({ analysis: "", bulletpoints: [""] })
   const [isLoading, setIsLoading] = useState<boolean>(false)
 
   useEffect(() => {
-    if (diaryBulletpoints.length > 0 && diaryAnalysis) {
+    if (diaryAnalysis) {
       addEntry(diaryEntry)
     }
-  }, [diaryBulletpoints, diaryAnalysis])
+  }, [diaryAnalysis])
 
   async function addEntry(entryContent: string) {
-    if (user) {
+    if (user && diaryAnalysis.analysis.length > 0) {
       const entry: Omit<DiaryEntry, "entryId"> = {
         content: entryContent,
         createdAt: Timestamp.now(),
-        analysis: diaryAnalysis,
-        bulletpoints: diaryBulletpoints,
+        analysis: diaryAnalysis.analysis,
+        bulletpoints: diaryAnalysis.bulletpoints,
       }
 
       await addDoc(collection(db, "users", user.uid, "entries"), {
@@ -34,9 +36,7 @@ function DiaryForm() {
         bulletpoints: entry.bulletpoints,
       })
     } else {
-      throw new Error(
-        "Must be logged in to add a new problem OR there was a problem with AI diary summarization.",
-      )
+      throw new Error("There was a problem with AI diary summarization.")
     }
     setIsLoading(false)
   }
@@ -73,30 +73,67 @@ function DiaryForm() {
       const splitSummaryFiltered = splitSummary.filter(
         (bulletpoint) => bulletpoint.length > 0,
       )
-      setDiaryAnalysis(analysis)
-      setDiaryBulletpoints(splitSummaryFiltered)
+
+      const analysisFiltered = analysis.replaceAll("Answer: ", "").trim()
+
+      setDiaryAnalysis({
+        analysis: analysisFiltered,
+        bulletpoints: splitSummaryFiltered,
+      })
     }
   }
 
   return (
     <>
       {user && (
-        <form className="flex flex-col" onSubmit={(e) => handleSubmit(e)}>
-          {!isLoading && (
+        <form
+          className="flex flex-col w-full justify-center align-middle"
+          onSubmit={(e) => handleSubmit(e)}
+        >
+          <div className="mx-4 my-8 md:mx-48 h-full flex flex-col ">
             <textarea
               name={"diaryContent"}
-              className="w-3/6 h-auto  border-gray-700 border"
+              required
+              className="
+              h-1/2
+              px-3
+              py-1.5
+              text-base
+              font-normal
+            text-gray-700
+            bg-white bg-clip-padding
+              border border-solid border-gray-300
+              rounded
+              transition
+              ease-in-out
+              
+              
+            focus:text-gray-700 focus:bg-white focus:border-blue-600 focus:outline-none"
+              rows={12}
               onChange={(e) => setDiaryEntry(e.target.value)}
               placeholder="This is your diary, write some thoughts, anything you want..."
               value={diaryEntry}
             />
-          )}
 
-          <div>
             {isLoading ? (
-              <img src={LoadingSpinner} alt="A loading spinner" />
+              <button
+                type="submit"
+                disabled
+                name={"submit"}
+                value="Submit Entry"
+                className="cursor-not-allowed bg-blue-500 w-1/2 m-2 xl:w-1/6 self-center flex justify-center items-center hover:bg-blue-700 text-white font-bold py-2 px-4 rounded"
+              >
+                <img src={LoadingSpinner} alt="A loading spinner" />
+              </button>
             ) : (
-              <input type="submit" name={"submit"} value="Submit Entry" />
+              <button
+                className="bg-blue-500 w-1/2 m-2 xl:w-1/6 self-center flex justify-center items-center  hover:bg-blue-700 text-white font-bold py-2 px-4 rounded"
+                type="submit"
+                name={"submit"}
+                value="Submit Entry"
+              >
+                Submit Entry
+              </button>
             )}
           </div>
         </form>

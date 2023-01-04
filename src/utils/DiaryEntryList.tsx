@@ -37,11 +37,16 @@ function DiaryEntryList() {
   return (
     <>
       {user && (
-        <ul>
-          {diaryEntries?.map((entry) => (
-            <DiaryItem key={entry.entryId} entry={entry} />
-          ))}
-        </ul>
+        <div>
+          <h2 className="p-2 mb-4 text-center  text-white font-bold italic bg-green-500 rounded">
+            {`Diary Entries: ${diaryEntries?.length}`}
+          </h2>
+          <ul className="space-y-6">
+            {diaryEntries?.map((entry) => (
+              <DiaryItem key={entry.entryId} entry={entry} />
+            ))}
+          </ul>
+        </div>
       )}
     </>
   )
