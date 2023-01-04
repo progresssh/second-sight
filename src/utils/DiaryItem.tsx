@@ -85,11 +85,11 @@ function DiaryItem({ entry }: { entry: DiaryEntry }) {
             <li key={i}>{bulletpoint}</li>
           ))}
         </ul>
-        <div className="py-4 ">
+        {/* <div className="py-4 ">
           <p className="italic text-blue-800">Word from a friend</p>
           <p className="">{entry.analysis}</p>
           <div></div>
-        </div>
+        </div> */}
       </div>
       <DeleteDialog isOpen={isOpen} setIsOpen={setIsOpen} id={entry.entryId} />
     </li>
