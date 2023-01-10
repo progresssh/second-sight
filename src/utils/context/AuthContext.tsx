@@ -47,8 +47,9 @@ export default function AuthContextProvider({
 }: {
   children: React.ReactNode
 }) {
-  const [user, setUser] = useState<User | null>()
   const auth = getAuth(app)
+
+  const [user, setUser] = useState<User | null>()
   const [authError, setAuthError] = useState<AuthError | null>(null)
 
   function signIn(formProps: FormProps) {

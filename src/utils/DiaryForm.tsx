@@ -4,6 +4,7 @@ import { DiaryEntry } from "../interfaces/DiaryEntry"
 import { useAuthContext } from "./context/AuthContext"
 import { db } from "./firebase/firebase"
 import LoadingSpinner from "../assets/spinner.svg"
+import { useNavigate } from "react-router-dom"
 
 function DiaryForm() {
   const { user } = useAuthContext()
@@ -11,8 +12,9 @@ function DiaryForm() {
   const [diaryAnalysis, setDiaryAnalysis] = useState<{
     analysis: string
     bulletpoints: string[]
-  }>({ analysis: "", bulletpoints: [""] })
+  } | null>(null)
   const [isLoading, setIsLoading] = useState<boolean>(false)
+  const router = useNavigate()
 
   useEffect(() => {
     if (diaryAnalysis) {
@@ -21,7 +23,7 @@ function DiaryForm() {
   }, [diaryAnalysis])
 
   async function addEntry(entryContent: string) {
-    if (user && diaryAnalysis.analysis.length > 0) {
+    if (user && diaryAnalysis) {
       const entry: Omit<DiaryEntry, "entryId"> = {
         content: entryContent,
         createdAt: Timestamp.now(),
@@ -35,9 +37,11 @@ function DiaryForm() {
         analysis: entry.analysis,
         bulletpoints: entry.bulletpoints,
       })
+      router("/entries")
     } else {
       throw new Error("There was a problem with AI diary summarization.")
     }
+
     setIsLoading(false)
   }
 
@@ -87,31 +91,30 @@ function DiaryForm() {
     <>
       {user && (
         <form
-          className="flex flex-col w-full justify-center align-middle"
+          className="flex flex-col h-full w-full justify-center align-middle"
           onSubmit={(e) => handleSubmit(e)}
         >
-          <div className="mx-4 my-8 md:mx-48 h-full flex flex-col ">
+          <div className="mx-4 self-center w-full h-full md:w-4/6 flex flex-col ">
             <textarea
               name={"diaryContent"}
               required
               className="
-              h-1/2
+              flex-grow
+              h-full
+              w-full
               px-3
               py-1.5
-              text-base
+              text-xl
               font-normal
-            text-gray-700
-            bg-white bg-clip-padding
-              border border-solid border-gray-300
-              rounded
+            text-[#B8C1EC]
+            bg-[#232946] bg-clip-padding
+              resize-none
               transition
+              placeholder-white-700
               ease-in-out
-              
-              
-            focus:text-gray-700 focus:bg-white focus:border-blue-600 focus:outline-none"
-              rows={12}
+              focus:outline-none "
               onChange={(e) => setDiaryEntry(e.target.value)}
-              placeholder="This is your diary, write some thoughts, anything you want..."
+              autoFocus
               value={diaryEntry}
             />
 
@@ -121,13 +124,13 @@ function DiaryForm() {
                 disabled
                 name={"submit"}
                 value="Submit Entry"
-                className="cursor-not-allowed bg-blue-500 w-1/2 m-2 xl:w-1/6 self-center flex justify-center items-center hover:bg-blue-700 text-white font-bold py-2 px-4 rounded"
+                className="cursor-not-allowed bg-[#EEBBC3] w-1/2 m-2 mb-4 xl:w-1/6 self-center flex justify-center items-center hover:bg-red-300 text-[#232946] font-medium py-2 px-4 rounded"
               >
                 <img src={LoadingSpinner} alt="A loading spinner" />
               </button>
             ) : (
               <button
-                className="bg-blue-500 w-1/2 m-2 xl:w-1/6 self-center flex justify-center items-center  hover:bg-blue-700 text-white font-bold py-2 px-4 rounded"
+                className=" bg-[#EEBBC3] w-1/2 h-12 m-2 mb-4 xl:w-1/6 self-center flex justify-center items-center  hover:bg-red-300 text-[#232946] font-medium py-2 px-4 rounded transition ease-in"
                 type="submit"
                 name={"submit"}
                 value="Submit Entry"

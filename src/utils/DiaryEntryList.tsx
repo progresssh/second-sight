@@ -4,15 +4,19 @@ import { DiaryEntry } from "../interfaces/DiaryEntry.js"
 import { db } from "./firebase/firebase.js"
 import { useAuthContext } from "./context/AuthContext.js"
 import DiaryItem from "./DiaryItem.js"
+import spinner from "../assets/spinner.svg"
+import Layout from "./Layout.js"
 
 function DiaryEntryList() {
   const { user } = useAuthContext()
 
   const [diaryEntries, setDiaryEntries] = useState<DiaryEntry[] | null>()
   const [snapshot, setSnapshot] = useState<QuerySnapshot | null>(null)
+  const [isLoading, setIsLoading] = useState(true)
 
   useEffect(() => {
     if (user) {
+      setIsLoading(true)
       const query = collection(db, "users", user.uid, "entries")
       const unsubscribe = onSnapshot(query, (querySnapshot) =>
         setSnapshot(querySnapshot),
@@ -31,16 +35,22 @@ function DiaryEntryList() {
         data.sort((a, b) => b.createdAt.toMillis() - a.createdAt.toMillis())
       })
       setDiaryEntries(data)
+      setIsLoading(false)
     }
   }, [snapshot])
 
+  if (isLoading) {
+    return (
+      <div className="bg-[#232946] h-full flex justify-center items-center">
+        <img src={spinner} className="w-36 " alt="Loading spinner" />
+      </div>
+    )
+  }
+
   return (
-    <>
-      {user && (
+    <Layout page="entries">
+      {user && !isLoading && (
         <div>
-          <h2 className="p-2 mb-4 text-center  text-white font-bold italic bg-green-500 rounded">
-            {`Diary Entries: ${diaryEntries?.length}`}
-          </h2>
           <ul className="space-y-6">
             {diaryEntries?.map((entry) => (
               <DiaryItem key={entry.entryId} entry={entry} />
@@ -48,7 +58,7 @@ function DiaryEntryList() {
           </ul>
         </div>
       )}
-    </>
+    </Layout>
   )
 }
 

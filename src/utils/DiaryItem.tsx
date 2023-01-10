@@ -23,29 +23,35 @@ function DeleteDialog({
       <div className="fixed inset-0 bg-black/30" aria-hidden="true" />
 
       <div className="fixed inset-0 flex items-center justify-center p-4">
-        <Dialog.Panel className="mx-auto max-w-sm p-4 rounded bg-white">
-          <Dialog.Title className={"font-bold"}>Delete Entry</Dialog.Title>
+        <Dialog.Panel className="mx-auto max-w-sm p-4 border-4 border-[#EEBBC3] rounded bg-[#232946]">
+          <Dialog.Title className={"font-medium text-[#EEBBC3]"}>
+            Delete Entry
+          </Dialog.Title>
 
-          <p className="py-4">
+          <p className="py-4 text-[#B8C1EC]">
             Are you sure you want to delete this entry? All of your data will be
             permanently removed. This action cannot be undone.
           </p>
 
           <div className="flex justify-between">
             <button
-              className="bg-blue-500 hover:bg-blue-700 text-white font-bold py-2 px-4 rounded"
+              className="bg-[#EEBBC3] hover:bg-red-400 text-[#232946] font-medium py-2 px-4 rounded 
+              transition
+              ease-in-out"
+              onClick={() => setIsOpen(false)}
+            >
+              Cancel
+            </button>
+            <button
+              className="bg-[#EEBBC3]  hover:bg-red-400 text-[#232946] font-medium py-2 px-4 rounded 
+              transition
+              ease-in-out"
               onClick={() => {
                 deleteDocument(id)
                 setIsOpen(false)
               }}
             >
               Delete
-            </button>
-            <button
-              className="bg-blue-500 hover:bg-blue-700 text-white font-bold py-2 px-4 rounded"
-              onClick={() => setIsOpen(false)}
-            >
-              Cancel
             </button>
           </div>
         </Dialog.Panel>
@@ -58,9 +64,9 @@ function DiaryItem({ entry }: { entry: DiaryEntry }) {
   const [isOpen, setIsOpen] = useState(false)
 
   return (
-    <li className="whitespace-pre-wrap border rounded p-4">
+    <li className="text-[#B8C1EC] whitespace-pre-wrap border-2 border-[#EEBBC3] rounded-lg p-4">
       <div className="flex justify-between">
-        <time className="italic">
+        <time className="font-normal ">
           {entry.createdAt.toDate().toDateString()}
         </time>
         <button onClick={() => setIsOpen(true)}>
@@ -69,7 +75,7 @@ function DiaryItem({ entry }: { entry: DiaryEntry }) {
               rounded
               transition
               ease-in-out
-              hover:text-red-600
+              hover:text-red-400
               h-6 w-6
               cursor-pointer
               "
@@ -77,19 +83,15 @@ function DiaryItem({ entry }: { entry: DiaryEntry }) {
         </button>
       </div>
 
-      <div className="flex flex-col">
-        <div className="py-4">{entry.content}</div>
-        <p className="italic text-blue-800">Key points</p>
-        <ul className="">
+      <div className="flex flex-col space-y-4 mt-2">
+        <p className="font-medium text-[#EEBBC3]">Key Points</p>
+        <ul className="text-[#B8C1EC]">
           {entry.bulletpoints.map((bulletpoint, i) => (
             <li key={i}>{bulletpoint}</li>
           ))}
         </ul>
-        {/* <div className="py-4 ">
-          <p className="italic text-blue-800">Word from a friend</p>
-          <p className="">{entry.analysis}</p>
-          <div></div>
-        </div> */}
+        <p className="font-medium text-[#EEBBC3]">Entry</p>
+        <div className="">{entry.content}</div>
       </div>
       <DeleteDialog isOpen={isOpen} setIsOpen={setIsOpen} id={entry.entryId} />
     </li>
