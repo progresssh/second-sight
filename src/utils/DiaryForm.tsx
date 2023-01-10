@@ -4,7 +4,7 @@ import { DiaryEntry } from "../interfaces/DiaryEntry"
 import { useAuthContext } from "./context/AuthContext"
 import { db } from "./firebase/firebase"
 import LoadingSpinner from "../assets/spinner.svg"
-import { useNavigate } from "react-router-dom"
+import { Link, useNavigate } from "react-router-dom"
 
 function DiaryForm() {
   const { user } = useAuthContext()
@@ -13,6 +13,7 @@ function DiaryForm() {
     analysis: string
     bulletpoints: string[]
   } | null>(null)
+  const [fetchError, setFetchError] = useState<boolean>(false)
   const [isLoading, setIsLoading] = useState<boolean>(false)
   const router = useNavigate()
 
@@ -39,6 +40,7 @@ function DiaryForm() {
       })
       router("/entries")
     } else {
+      setFetchError(true)
       throw new Error("There was a problem with AI diary summarization.")
     }
 
@@ -47,6 +49,7 @@ function DiaryForm() {
 
   async function handleSubmit(e: React.FormEvent<HTMLFormElement>) {
     e.preventDefault()
+    setFetchError(false)
     setIsLoading(true)
 
     const {
@@ -61,14 +64,8 @@ function DiaryForm() {
     )
       .then((response) => response.json())
       .catch((error) => {
+        setFetchError(true)
         console.error(error)
-        return (
-          <span>
-            {
-              "There was an error, the AI could not generate a response. Please try again in 10 minutes."
-            }
-          </span>
-        )
       })
 
     if (bulletpoints) {
@@ -137,6 +134,14 @@ function DiaryForm() {
               >
                 Submit Entry
               </button>
+            )}
+            {fetchError && (
+              <Link to={"/"} className="self-center">
+                <button className="text-center text-red-600">
+                  There was an error, please copy your entry, and click here to
+                  try again.
+                </button>
+              </Link>
             )}
           </div>
         </form>
