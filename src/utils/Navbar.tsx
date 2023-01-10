@@ -58,13 +58,13 @@ export default function Navbar({ page }: { page: string }) {
     case "diary":
       return (
         <div className="flex flex-col ">
-          <div className="flex flex-row justify-around">
+          <div className="flex flex-row justify-around items-center">
             <div className="w-auto"></div>
-            <div className=" w-1/2 flex-grow text-center font-medium text-lg text-[#EEBBC3]">
+            <div className=" w-1/2 flex-grow md:text-center font-medium text-sm md:text-lg text-[#EEBBC3]">
               <h1>What would you like to tell me today?</h1>
             </div>
-            <div className=" w-auto text-end font-medium text-lg text-[#EEBBC3]">
-              <Link to={"/entries"} className="flex space-x-2">
+            <div className=" w-auto text-end font-medium text-sm md:text-lg text-[#EEBBC3]">
+              <Link to={"/entries"} className="flex space-x-2 items-center">
                 <span>{user?.displayName}</span>
                 <UserCircleIcon className="w-8" />
               </Link>

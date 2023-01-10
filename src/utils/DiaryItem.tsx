@@ -83,7 +83,7 @@ function DiaryItem({ entry }: { entry: DiaryEntry }) {
         </button>
       </div>
 
-      <div className="flex flex-col space-y-4 mt-2">
+      <div className="flex flex-col space-y-4 mt-2 break-words">
         <p className="font-medium text-[#EEBBC3]">Key Points</p>
         <ul className="text-[#B8C1EC]">
           {entry.bulletpoints.map((bulletpoint, i) => (
