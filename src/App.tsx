@@ -20,10 +20,10 @@ function App() {
               Get Started
             </button>
           </Link>
-          <div className="flex-grow flex items-center justify-center  ">
+          <div className="flex-grow w- flex items-center justify-center  ">
             <video
-              width="1280"
-              height="720"
+              width="960"
+              height="540"
               className="border-2 rounded-xl border-[#EEBBC3]"
               autoPlay
               muted
