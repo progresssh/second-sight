@@ -33,7 +33,7 @@ function DeleteDialog({
             permanently removed. This action cannot be undone.
           </p>
 
-          <div className="flex justify-between">
+          <div className="flex justify-end space-x-4 mt-4">
             <button
               className="bg-[#EEBBC3] hover:bg-red-400 text-[#232946] font-medium py-2 px-4 rounded 
               transition
