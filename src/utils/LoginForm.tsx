@@ -47,7 +47,7 @@ function LoginForm() {
           Log in to Second Sight
         </p>
 
-        <div className="bg-[#EEBBC3]  max-w-xs w-80 shadow-md rounded p-8 mb-4 max-w-xs w-80 flex  flex-col space-y-2 items-center justify-center">
+        <div className="bg-[#EEBBC3] max-w-xs w-80 shadow-md rounded p-8 mb-4 flex  flex-col space-y-2 items-center justify-center">
           <button
             onClick={signInGoogle}
             className="flex flex-row justify-center items-center rounded-xl p-3 bg-blue-600 hover:bg-blue-700 transition easy-in text-white"
