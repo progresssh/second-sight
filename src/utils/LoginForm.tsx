@@ -47,11 +47,7 @@ function LoginForm() {
           Log in to Second Sight
         </p>
 
-        <form
-          className="max-w-xs w-80 flex  flex-col space-y-2 items-center justify-center 
-          bg-[#EEBBC3]  shadow-md rounded p-8 mb-4"
-          onSubmit={(e) => handleSubmit(e)}
-        >
+        <div className="bg-[#EEBBC3]  max-w-xs w-80 shadow-md rounded p-8 mb-4 max-w-xs w-80 flex  flex-col space-y-2 items-center justify-center">
           <button
             onClick={signInGoogle}
             className="flex flex-row justify-center items-center rounded-xl p-3 bg-blue-600 hover:bg-blue-700 transition easy-in text-white"
@@ -59,77 +55,85 @@ function LoginForm() {
             <img width={24} height={24} src={googleIcon} className="mr-1" />
             <span>Sign in with Google</span>
           </button>
-          <div>or</div>
+          <form
+            className=" flex  flex-col space-y-2 items-center justify-center
+          "
+            onSubmit={(e) => handleSubmit(e)}
+          >
+            <div>or</div>
 
-          {!isSignedUp && (
+            {!isSignedUp && (
+              <div>
+                <label
+                  className="block text-[#232946] text-lg font-normal mb-2"
+                  htmlFor="username"
+                >
+                  Nickname
+                </label>
+                <input
+                  className="shadow appearance-none border focus:border-[#232946] rounded w-full py-2 px-3 text-[#232946] leading-tight focus:outline-none focus:shadow-outline"
+                  type={"text"}
+                  name={"nickname"}
+                  placeholder="John Doe"
+                />
+              </div>
+            )}
             <div>
               <label
                 className="block text-[#232946] text-lg font-normal mb-2"
                 htmlFor="username"
               >
-                Nickname
+                Email
               </label>
               <input
                 className="shadow appearance-none border focus:border-[#232946] rounded w-full py-2 px-3 text-[#232946] leading-tight focus:outline-none focus:shadow-outline"
-                type={"text"}
-                name={"nickname"}
-                placeholder="John Doe"
+                type={"email"}
+                autoComplete="true"
+                name={"email"}
+                placeholder="example@email.com"
               />
             </div>
-          )}
-          <div>
-            <label
-              className="block text-[#232946] text-lg font-normal mb-2"
-              htmlFor="username"
-            >
-              Email
-            </label>
-            <input
-              className="shadow appearance-none border focus:border-[#232946] rounded w-full py-2 px-3 text-[#232946] leading-tight focus:outline-none focus:shadow-outline"
-              type={"email"}
-              autoComplete="true"
-              name={"email"}
-              placeholder="example@email.com"
-            />
-          </div>
 
-          <div>
-            <label
-              className="block text-lg text-[#232946] font-normal mb-2"
-              htmlFor="username"
-            >
-              Password
-            </label>
-            <input
-              type={"password"}
-              name={"password"}
-              autoComplete="true"
-              className="shadow appearance-none border focus:border-[#232946] rounded w-full py-2 px-3 text-[#232946] mb-3 leading-tight focus:outline-none focus:shadow-outline"
-              placeholder={"******************"}
-            />
-          </div>
+            <div>
+              <label
+                className="block text-lg text-[#232946] font-normal mb-2"
+                htmlFor="username"
+              >
+                Password
+              </label>
+              <input
+                type={"password"}
+                name={"password"}
+                autoComplete="true"
+                className="shadow appearance-none border focus:border-[#232946] rounded w-full py-2 px-3 text-[#232946] mb-3 leading-tight focus:outline-none focus:shadow-outline"
+                placeholder={"******************"}
+              />
+            </div>
 
-          <div className="flex flex-col items-center ">
-            <button
-              type="submit"
-              className="bg-[#232946] hover:bg-[#1b2038] text-xl text-white font-medium py-2 px-6 rounded"
-            >
-              {isSignedUp ? "Log In" : "Register"}
-            </button>
-            {authError && <span className="text-red-500">{errorMessage}</span>}
-            <span
-              className="cursor-pointer text-xs text-[#232946] mt-8"
-              onClick={() => {
-                setAuthError(null)
-                setIsSignedUp(!isSignedUp)
-              }}
-            >
-              {!isSignedUp
-                ? "Already have an account? Click here to login."
-                : "Don't have an account? Click here to register."}
-            </span>
-          </div>
-        </form>
+            <div className="flex flex-col items-center ">
+              <button
+                type="submit"
+                className="bg-[#232946] hover:bg-[#1b2038] text-xl text-white font-medium py-2 px-6 rounded"
+              >
+                {isSignedUp ? "Log In" : "Register"}
+              </button>
+              {authError && (
+                <span className="text-red-500">{errorMessage}</span>
+              )}
+              <span
+                className="cursor-pointer text-xs text-[#232946] mt-8"
+                onClick={() => {
+                  setAuthError(null)
+                  setIsSignedUp(!isSignedUp)
+                }}
+              >
+                {!isSignedUp
+                  ? "Already have an account? Click here to login."
+                  : "Don't have an account? Click here to register."}
+              </span>
+            </div>
+          </form>
+        </div>
       </div>
     </>
   )
