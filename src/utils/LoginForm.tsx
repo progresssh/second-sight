@@ -1,11 +1,12 @@
 import { useEffect, useState } from "react"
 import { Navigate } from "react-router-dom"
 import { FormProps } from "../interfaces/FormProps"
-
 import { useAuthContext } from "./context/AuthContext"
+import googleIcon from "../assets/google-icon.png"
 
 function LoginForm() {
-  const { user, signIn, signUp, authError, setAuthError } = useAuthContext()
+  const { user, signIn, signUp, authError, setAuthError, signInGoogle } =
+    useAuthContext()
   const [isSignedUp, setIsSignedUp] = useState(true)
   const [errorMessage, setErrorMessage] = useState<string | null>(null)
 
@@ -42,14 +43,24 @@ function LoginForm() {
   return (
     <>
       <div className="flex flex-col h-full items-center justify-center">
-        <p className="font-normal text-3xl text-[#FFFFFE] mb-8">
+        <p className="font-normal text-xl md:text-3xl text-[#FFFFFE] mb-8">
           Log in to Second Sight
         </p>
+
         <form
-          className="max-w-xs w-80 flex flex-col space-y-8 items-center justify-center 
+          className="max-w-xs w-80 flex  flex-col space-y-2 items-center justify-center 
           bg-[#EEBBC3]  shadow-md rounded p-8 mb-4"
           onSubmit={(e) => handleSubmit(e)}
         >
+          <button
+            onClick={signInGoogle}
+            className="flex flex-row justify-center items-center rounded-xl p-3 bg-blue-600 hover:bg-blue-700 transition easy-in text-white"
+          >
+            <img width={24} height={24} src={googleIcon} className="mr-1" />
+            <span>Sign in with Google</span>
+          </button>
+          <div>or</div>
+
           {!isSignedUp && (
             <div>
               <label

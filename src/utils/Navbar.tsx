@@ -45,8 +45,12 @@ export default function Navbar({ page }: { page: string }) {
             </div>
             <div className=" w-1/3 text-end font-medium text-lg text-[#EEBBC3]">
               {user && (
-                <Link to={"/"} className="flex space-x-2 justify-end">
-                  <button onClick={logOut}>Logout</button>
+                <Link
+                  to={"/"}
+                  onClick={logOut}
+                  className="flex space-x-2 justify-end"
+                >
+                  <button>Logout</button>
                   <ArrowRightOnRectangleIcon className="w-8" />
                 </Link>
               )}

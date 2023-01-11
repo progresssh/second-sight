@@ -10,8 +10,10 @@ import {
   AuthError,
   createUserWithEmailAndPassword,
   getAuth,
+  GoogleAuthProvider,
   onAuthStateChanged,
   signInWithEmailAndPassword,
+  signInWithPopup,
   signOut,
   updateProfile,
   User,
@@ -26,9 +28,10 @@ interface AuthHook {
   signUp: (formProps: FormProps) => void
   logOut: () => void
   deleteDocument: (id: string) => void
+  setAuthError: Dispatch<SetStateAction<AuthError | null>>
+  signInGoogle: () => void
   user: User | null | undefined
   authError: AuthError | null
-  setAuthError: Dispatch<SetStateAction<AuthError | null>>
 }
 
 const AuthContext = createContext<AuthHook | null>(null)
@@ -48,9 +51,25 @@ export default function AuthContextProvider({
   children: React.ReactNode
 }) {
   const auth = getAuth(app)
-
+  const provider = new GoogleAuthProvider()
   const [user, setUser] = useState<User | null>()
   const [authError, setAuthError] = useState<AuthError | null>(null)
+
+  function signInGoogle() {
+    signInWithPopup(auth, provider)
+      .then((result) => {
+        // This gives you a Google Access Token. You can use it to access the Google API.
+        const credential = GoogleAuthProvider.credentialFromResult(result)
+        const user = result.user
+        setUser(user)
+        // ...
+      })
+      .catch((error) => {
+        // Handle Errors here.
+        const errorCode = error.code
+        setAuthError(errorCode)
+      })
+  }
 
   function signIn(formProps: FormProps) {
     setAuthError(null)
@@ -95,6 +114,7 @@ export default function AuthContextProvider({
     <AuthContext.Provider
       value={{
         signIn,
+        signInGoogle,
         signUp,
         logOut,
         setAuthError,
