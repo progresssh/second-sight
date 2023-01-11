@@ -56,7 +56,7 @@ function DiaryForm() {
       analysis,
       bulletpoints,
     }: { analysis: string; bulletpoints: string } = await fetch(
-      "https://secondsightbacksyfr1vrq-first.functions.fnc.fr-par.scw.cloud/",
+      "https://secondsightbacksyfr1vrq-secondsightopenai.functions.fnc.fr-par.scw.cloud",
       {
         method: "POST",
         body: JSON.stringify({ diary: diaryEntry }),

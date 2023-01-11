@@ -18,7 +18,10 @@ function LoginForm() {
       case "auth/email-already-in-use":
         setErrorMessage("Email already has an account.")
         break
-      case "auth/user-not-found" || "auth/wrong-password":
+      case "auth/user-not-found":
+        setErrorMessage("Invalid credentials")
+        break
+      case "auth/wrong-password":
         setErrorMessage("Invalid credentials")
         break
     }
