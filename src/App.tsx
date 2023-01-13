@@ -20,7 +20,7 @@ function App() {
               Get Started
             </button>
           </Link>
-          <div className="flex-grow flex items-center my-8 justify-center  ">
+          <div className="flex-grow w- flex items-center justify-center  ">
             <video
               width="960"
               height="540"
