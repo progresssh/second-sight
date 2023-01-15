@@ -46,11 +46,11 @@ function LoginForm() {
   return (
     <>
       <div className="flex flex-col h-full items-center justify-center">
-        <p className="font-normal text-xl md:text-3xl text-[#FFFFFE] mb-8">
+        <p className="font-normal text-xl md:text-3xl text-headline mb-8">
           Log in to Second Sight
         </p>
 
-        <div className="bg-[#EEBBC3] max-w-xs w-80 shadow-md rounded p-8 mb-4 flex  flex-col space-y-2 items-center justify-center">
+        <div className="bg-button max-w-xs w-80 shadow-md rounded p-8 mb-4 flex  flex-col space-y-2 items-center justify-center">
           <button
             onClick={signInGoogle}
             className="flex flex-row justify-center items-center rounded-xl p-3 bg-blue-600 hover:bg-blue-700 transition easy-in text-white"
@@ -68,13 +68,13 @@ function LoginForm() {
             {!isSignedUp && (
               <div>
                 <label
-                  className="block text-[#232946] text-lg font-normal mb-2"
+                  className="block text-buttontext text-lg font-normal mb-2"
                   htmlFor="username"
                 >
                   Nickname
                 </label>
                 <input
-                  className="shadow appearance-none border focus:border-[#232946] rounded w-full py-2 px-3 text-[#232946] leading-tight focus:outline-none focus:shadow-outline"
+                  className="shadow appearance-none border focus:border-buttontext rounded w-full py-2 px-3 text-buttontext leading-tight focus:outline-none focus:shadow-outline"
                   type={"text"}
                   name={"nickname"}
                   placeholder="John Doe"
@@ -83,13 +83,13 @@ function LoginForm() {
             )}
             <div>
               <label
-                className="block text-[#232946] text-lg font-normal mb-2"
+                className="block text-buttontext text-lg font-normal mb-2"
                 htmlFor="username"
               >
                 Email
               </label>
               <input
-                className="shadow appearance-none border focus:border-[#232946] rounded w-full py-2 px-3 text-[#232946] leading-tight focus:outline-none focus:shadow-outline"
+                className="shadow appearance-none border focus:border-buttontext rounded w-full py-2 px-3 text-buttontext leading-tight focus:outline-none focus:shadow-outline"
                 type={"email"}
                 autoComplete="true"
                 name={"email"}
@@ -99,7 +99,7 @@ function LoginForm() {
 
             <div>
               <label
-                className="block text-lg text-[#232946] font-normal mb-2"
+                className="block text-lg text-buttontext font-normal mb-2"
                 htmlFor="username"
               >
                 Password
@@ -108,7 +108,7 @@ function LoginForm() {
                 type={"password"}
                 name={"password"}
                 autoComplete="true"
-                className="shadow appearance-none border focus:border-[#232946] rounded w-full py-2 px-3 text-[#232946] mb-3 leading-tight focus:outline-none focus:shadow-outline"
+                className="shadow appearance-none border focus:border-buttontext rounded w-full py-2 px-3 text-buttontext mb-3 leading-tight focus:outline-none focus:shadow-outline"
                 placeholder={"******************"}
               />
             </div>
@@ -116,7 +116,7 @@ function LoginForm() {
             <div className="flex flex-col items-center ">
               <button
                 type="submit"
-                className="bg-[#232946] hover:bg-[#1b2038] text-xl text-white font-medium py-2 px-6 rounded"
+                className="bg-buttontext hover:bg-[#1b2038] text-xl text-white font-medium py-2 px-6 rounded"
               >
                 {isSignedUp ? "Log In" : "Register"}
               </button>
@@ -124,7 +124,7 @@ function LoginForm() {
                 <span className="text-red-500">{errorMessage}</span>
               )}
               <span
-                className="cursor-pointer text-xs text-[#232946] mt-8"
+                className="cursor-pointer text-xs text-buttontext mt-8"
                 onClick={() => {
                   setAuthError(null)
                   setIsSignedUp(!isSignedUp)

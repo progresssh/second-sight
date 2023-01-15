@@ -41,7 +41,7 @@ function DiaryEntryList() {
 
   if (isLoading) {
     return (
-      <div className="bg-[#232946] h-full flex justify-center items-center">
+      <div className="bg-background h-full flex justify-center items-center">
         <img src={spinner} className="w-36 " alt="Loading spinner" />
       </div>
     )

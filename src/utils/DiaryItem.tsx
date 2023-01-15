@@ -23,8 +23,8 @@ function DeleteDialog({
       <div className="fixed inset-0 bg-black/30" aria-hidden="true" />
 
       <div className="fixed inset-0 flex items-center justify-center p-4">
-        <Dialog.Panel className="mx-auto max-w-sm p-4 border-4 border-[#EEBBC3] rounded bg-[#232946]">
-          <Dialog.Title className={"font-medium text-[#EEBBC3]"}>
+        <Dialog.Panel className="mx-auto max-w-sm p-4 border-4 border-button rounded bg-buttontext">
+          <Dialog.Title className={"font-medium text-button"}>
             Delete Entry
           </Dialog.Title>
 
@@ -35,7 +35,7 @@ function DeleteDialog({
 
           <div className="flex justify-end space-x-4 mt-4">
             <button
-              className="bg-[#EEBBC3] hover:bg-red-400 text-[#232946] font-medium py-2 px-4 rounded 
+              className="bg-button hover:bg-red-400 text-buttontext font-medium py-2 px-4 rounded 
               transition
               ease-in-out"
               onClick={() => setIsOpen(false)}
@@ -43,7 +43,7 @@ function DeleteDialog({
               Cancel
             </button>
             <button
-              className="bg-[#EEBBC3]  hover:bg-red-400 text-[#232946] font-medium py-2 px-4 rounded 
+              className="bg-button  hover:bg-red-400 text-buttontext font-medium py-2 px-4 rounded 
               transition
               ease-in-out"
               onClick={() => {
@@ -64,7 +64,7 @@ function DiaryItem({ entry }: { entry: DiaryEntry }) {
   const [isOpen, setIsOpen] = useState(false)
 
   return (
-    <li className="text-[#B8C1EC] whitespace-pre-wrap border-2 border-[#EEBBC3] rounded-lg p-4">
+    <li className="text-paragraph whitespace-pre-wrap border-2 border-button rounded-lg p-4">
       <div className="flex justify-between">
         <time className="font-normal ">
           {entry.createdAt.toDate().toDateString()}
@@ -84,13 +84,13 @@ function DiaryItem({ entry }: { entry: DiaryEntry }) {
       </div>
 
       <div className="flex flex-col space-y-4 mt-2 break-words">
-        <p className="font-medium text-[#EEBBC3]">Key Points</p>
-        <ul className="text-[#B8C1EC]">
+        <p className="font-medium text-button">Key Points</p>
+        <ul className="text-paragraph">
           {entry.bulletpoints.map((bulletpoint, i) => (
             <li key={i}>{bulletpoint}</li>
           ))}
         </ul>
-        <p className="font-medium text-[#EEBBC3]">Entry</p>
+        <p className="font-medium text-button">Entry</p>
         <div className="">{entry.content}</div>
       </div>
       <DeleteDialog isOpen={isOpen} setIsOpen={setIsOpen} id={entry.entryId} />

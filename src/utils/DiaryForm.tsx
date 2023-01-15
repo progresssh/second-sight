@@ -103,8 +103,8 @@ function DiaryForm() {
               py-1.5
               text-xl
               font-normal
-            text-[#B8C1EC]
-            bg-[#232946] bg-clip-padding
+            text-paragraph
+            bg-buttontext bg-clip-padding
               resize-none
               transition
               placeholder-white-700
@@ -121,13 +121,13 @@ function DiaryForm() {
                 disabled
                 name={"submit"}
                 value="Submit Entry"
-                className="cursor-not-allowed bg-[#EEBBC3] w-1/2 m-2 mb-4 xl:w-1/6 self-center flex justify-center items-center hover:bg-red-300 text-[#232946] font-medium py-2 px-4 rounded"
+                className="cursor-not-allowed bg-button w-1/2 m-2 mb-4 xl:w-1/6 self-center flex justify-center items-center hover:bg-red-300 text-background font-medium py-2 px-4 rounded"
               >
                 <img src={LoadingSpinner} alt="A loading spinner" />
               </button>
             ) : (
               <button
-                className=" bg-[#EEBBC3] w-1/2 h-12 m-2 mb-4 xl:w-1/6 self-center flex justify-center items-center  hover:bg-red-300 text-[#232946] font-medium py-2 px-4 rounded transition ease-in"
+                className=" bg-button w-1/2 h-12 m-2 mb-4 xl:w-1/6 self-center flex justify-center items-center  hover:bg-red-300 text-background font-medium py-2 px-4 rounded transition ease-in"
                 type="submit"
                 name={"submit"}
                 value="Submit Entry"

@@ -6,17 +6,17 @@ function App() {
   return (
     <>
       <Layout page="index">
-        <div className="flex flex-col justify-center  items-center text-5xl h-full text-[#FFFFFE]">
+        <div className="flex flex-col justify-center  items-center text-5xl h-full text-headline">
           <h1 className="font-medium mt-8">Second Sight</h1>
-          <h2 className="font-extralight italic text-4xl">
-            an insightful diary
+          <h2 className="font-extralight text-center italic text-4xl">
+            a diary for messy thoughts
           </h2>
-          <p className="text-xl mt-8 w-3/4 text-center text-[#B8C1EC]">
-            A mystical friend inhabits your diary, providing you with clarity
-            and insight...
+          <p className="text-xl mt-8 w-3/4 text-center text-paragraph">
+            Pour your heart out to a mystical diary who replies with insights
+            and the important points of your writing
           </p>
           <Link to="/login">
-            <button className="font-medium rounded-full mt-12 px-4 py-1 bg-[#EEBBC3] text-xl text-[#232946]">
+            <button className="font-medium rounded-full mt-12 px-4 py-1 bg-button text-xl text-buttontext">
               Get Started
             </button>
           </Link>
@@ -24,7 +24,7 @@ function App() {
             <video
               width="960"
               height="540"
-              className="border-2 rounded-xl border-[#EEBBC3]"
+              className="border-2 rounded-xl border-button"
               autoPlay
               muted
               loop
