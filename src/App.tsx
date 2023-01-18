@@ -27,6 +27,7 @@ function App() {
               className="border-2 rounded-xl border-button"
               autoPlay
               muted
+              playsInline
               loop
             >
               <source src={video} type="video/webm" />

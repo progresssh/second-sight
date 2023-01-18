@@ -95,21 +95,7 @@ function DiaryForm() {
             <textarea
               name={"diaryContent"}
               required
-              className="
-              flex-grow
-              h-full
-              w-full
-              px-3
-              py-1.5
-              text-xl
-              font-normal
-            text-paragraph
-            bg-buttontext bg-clip-padding
-              resize-none
-              transition
-              placeholder-white-700
-              ease-in-out
-              focus:outline-none "
+              className="flex-grow h-full w-full px-3 py-1.5 text-xl font-normal text-paragraph bg-buttontext bg-clip-padding resize-none transition placeholder-white-700 ease-in-out focus:outline-none"
               onChange={(e) => setDiaryEntry(e.target.value)}
               autoFocus
               value={diaryEntry}
