@@ -1,6 +1,8 @@
 import { DiaryEntry } from "../interfaces/DiaryEntry"
 import { XMarkIcon } from "@heroicons/react/24/solid"
 import { useAuthContext } from "./context/AuthContext"
+import { db } from "./firebase/firebase"
+import { deleteDoc, doc } from "firebase/firestore"
 import { useState } from "react"
 import { Dialog } from "@headlessui/react"
 
@@ -13,7 +15,19 @@ function DeleteDialog({
   isOpen: boolean
   id: string
 }) {
-  const { deleteDocument } = useAuthContext()
+  const { user } = useAuthContext()
+
+  async function deleteDocument(id: string) {
+    if (user) {
+      await deleteDoc(doc(db, "users", user.uid, "entries", id))
+    }
+  }
+
+  function handleClickDelete() {
+    deleteDocument(id)
+    setIsOpen(false)
+  }
+
   return (
     <Dialog
       className={"relative z-50"}
@@ -46,10 +60,7 @@ function DeleteDialog({
               className="bg-button  hover:bg-red-400 text-buttontext font-medium py-2 px-4 rounded 
               transition
               ease-in-out"
-              onClick={() => {
-                deleteDocument(id)
-                setIsOpen(false)
-              }}
+              onClick={handleClickDelete}
             >
               Delete
             </button>

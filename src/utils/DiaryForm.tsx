@@ -13,8 +13,8 @@ function DiaryForm() {
     analysis: string
     bulletpoints: string[]
   } | null>(null)
-  const [fetchError, setFetchError] = useState<boolean>(false)
-  const [isLoading, setIsLoading] = useState<boolean>(false)
+  const [fetchError, setFetchError] = useState(false)
+  const [isLoading, setIsLoading] = useState(false)
   const router = useNavigate()
 
   useEffect(() => {
