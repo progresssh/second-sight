@@ -19,15 +19,13 @@ import {
   User,
 } from "firebase/auth"
 
-import app, { db } from "../firebase/firebase"
+import app from "../firebase/firebase"
 import { FormProps } from "../../interfaces/FormProps"
-import { deleteDoc, doc } from "firebase/firestore"
 
 interface AuthHook {
   signIn: (formProps: FormProps) => void
   signUp: (formProps: FormProps) => void
   logOut: () => void
-  deleteDocument: (id: string) => void
   setAuthError: Dispatch<SetStateAction<AuthError | null>>
   signInGoogle: () => void
   user: User | null | undefined
@@ -76,12 +74,6 @@ export default function AuthContextProvider({
     )
   }
 
-  async function deleteDocument(id: string) {
-    if (user) {
-      await deleteDoc(doc(db, "users", user.uid, "entries", id))
-    }
-  }
-
   function signUp(formProps: FormProps) {
     setAuthError(null)
     createUserWithEmailAndPassword(auth, formProps.email, formProps.password)
@@ -116,7 +108,6 @@ export default function AuthContextProvider({
         signUp,
         logOut,
         setAuthError,
-        deleteDocument,
         user,
         authError,
       }}
