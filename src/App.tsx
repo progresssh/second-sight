@@ -33,7 +33,7 @@ function App() {
               <source src={video} type="video/webm" />
             </video>
           </div>
-          <footer className="text-sm text-paragraph">
+          <footer className="text-sm px-4 text-center text-paragraph">
             For any request, please contact me at{" "}
             <a href="mailto:star@progress.sh" target="_blank" rel="noreferrer">
               star@progress.sh
