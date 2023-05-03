@@ -20,7 +20,7 @@ function App() {
               Get Started
             </button>
           </Link>
-          <div className="flex-grow w- flex items-center justify-center  ">
+          <div className="flex-grow flex items-center justify-center  ">
             <video
               width="960"
               height="540"
@@ -33,6 +33,12 @@ function App() {
               <source src={video} type="video/webm" />
             </video>
           </div>
+          <footer className="text-sm text-paragraph">
+            For any request, please contact me at{" "}
+            <a href="mailto:star@progress.sh" target="_blank" rel="noreferrer">
+              star@progress.sh
+            </a>
+          </footer>
         </div>
       </Layout>
     </>
